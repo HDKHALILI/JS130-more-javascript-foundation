@@ -12,36 +12,40 @@
 // - When called without arguments, it prints all of the items on the list.
 // If the list is empty, it prints an appropriate message.
 
+// We can improve the interface by returning an Object from makeList instead
+// of a function. That lets us create an API that is easy to use and understand:
+
 function makeList() {
   const list = [];
-  return function(item) {
-    if (item) {
-      if (!list.includes(item)) {
-        list.push(item);
-        console.log(`${item} added!`)
-      } else if (list.includes(item)) {
-        const index = list.indexOf(item);
-        list.splice(index, 1);
-        console.log(`${item} removed!`);
-      }
-    } else if (list.length === 0) {
-      console.log('The list is empty');
-    } else {
+  return {
+    add(item) {
+      list.push(item);
+      console.log(`${item} added!`);
+    },
+
+    remove(item) {
+      const index = list.indexOf(item);
+      list.splice(index, 1);
+      console.log(`${item} removed!`);
+    },
+
+    list() {
       list.forEach(item => console.log(item));
     }
   }
 }
+
 let list = makeList();
-list(); // The list is empty.
+list.add("peas"); // peas added!
 
-list("make breakfast"); // make breakfast added!
+list.list(); // peas
 
-list("read book"); // read book added!
+list.add("corn"); //corn added!
 
-list();
-// make breakfast
-// read book
+list.list();
+// peas 
+// corn 
 
-list("make breakfast"); // make breakfast removed!
+list.remove("peas"); //peas removed!
 
-list(); // read book
+list.list(); // corn
