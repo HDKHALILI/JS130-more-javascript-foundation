@@ -16,21 +16,34 @@
 // of a function. That lets us create an API that is easy to use and understand:
 
 function makeList() {
-  const list = [];
   return {
+    items: [],
+
     add(item) {
-      list.push(item);
-      console.log(`${item} added!`);
+      if (this.items.includes(item)) {
+        console.log(`${item} is already in the list`);
+      } else {
+        this.items.push(item);
+        console.log(`${item} added!`);
+      }
     },
 
     remove(item) {
-      const index = list.indexOf(item);
-      list.splice(index, 1);
-      console.log(`${item} removed!`);
+      const index = this.items.indexOf(item);
+      if (index === -1) {
+        console.log(`${item} is not in the list`);
+      } else {
+        this.items.splice(index, 1);
+        console.log(`${item} removed!`);
+      }
     },
 
     list() {
-      list.forEach(item => console.log(item));
+      if (this.items.length === 0) {
+        console.log('The list is empty');
+      } else {
+        this.items.forEach(item => console.log(item));
+      }
     }
   }
 }
