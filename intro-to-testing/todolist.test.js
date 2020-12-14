@@ -152,4 +152,51 @@ describe('TodoList', () => {
     expect(doneTodos.toString()).toBe(newList.toString());
   });
 
+  test("getTitle returns the title of the todo list", () => {
+    const title = "Buy milk";
+    expect(todo1.getTitle()).toBe(title);
+  });
+
+  test("findByTitle returns a todo with the given title", () => {
+    expect(list.findByTitle("Buy milk")).toEqual(todo1);
+  });
+
+  test("allDone returns all done todos", () => {
+    todo1.markDone();
+    todo3.markDone();
+
+    const newList = new TodoList(list.title);
+    newList.add(todo1);
+    newList.add(todo3);
+
+    expect(list.allDone()).toEqual(newList);
+  });
+
+  test("notAllDone returns all not done todos", () => {
+    const newList = new TodoList(list.title);
+    todo3.markDone();
+    newList.add(todo1);
+    newList.add(todo2);
+
+    expect(list.allNotDone()).toEqual(newList);
+  });
+
+  test(
+    "markDone method of TodoList marks the todo matching the given title done",
+    () => {
+      console.log(todo1);
+      list.markDone("Buy milk");
+      expect(todo1.isDone()).toBe(true);
+    }
+  );
+
+  test("markAllUndone marks all todo not done", () => {
+    list.markAllDone();
+    expect(list.isDone()).toBe(true);
+
+    list.markAllUndone();
+    expect(list.isDone()).toBe(false);
+  })
+
+
 });
